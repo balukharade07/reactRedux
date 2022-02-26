@@ -1,0 +1,14 @@
+export const SET_AGE = 'SET_AGE';
+export const SET_NAME = 'SET_NAME';
+export const INCREMENT = 'INCREMENT';
+export const DECREMENT = 'DECREMENT';
+export const RESET = 'RESET';
+export const GET_ALL_EMPLOYEES = 'GET_ALL_EMPLOYEES'
+export const DELETE_EMPLOYEE = 'DELETE_EMPLOYEE'
+export const ADD_EMPLOYEE = 'ADD_EMPLOYEE'
+export const EDIT_EMPLOYEE = 'EDIT_EMPLOYEE'
+export const GET_EMPLOYEE = 'GET_EMPLOYEE'
+export const USERINFO = 'USERINFO'
+export const GET_USERINFO = 'GET_USERINFO'
+export const CREATE_USER = 'CREATE_USER'
+export const EDIT_USER = 'EDIT_USER'

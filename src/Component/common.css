@@ -1,0 +1,32 @@
+.aside-login {
+  background-color: #001529;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.login-form {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.edit-form {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  /* min-height: 100vh; */
+}
+
+.form-login {
+    width: 550px;
+    padding: 50px;
+    border: 1px solid #1890ff;
+    border-radius: 10px;
+}
+
+.react-img {
+  width: 250px;
+  margin-top: 40px;
+  max-width: 100%;
+}

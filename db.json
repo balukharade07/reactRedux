@@ -1,0 +1,88 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "userInfo": [
+    {
+      "username": "Kharade",
+      "password": "balu@123",
+      "id": 1,
+      "email": "balu@gmail.com",
+      "role": "admin"
+    },
+    {
+      "username": "test",
+      "password": "test",
+      "id": 2,
+      "email": "test@gmail.com",
+      "role": "test"
+    },
+    {
+      "username": "Vaishnavi",
+      "password": "Vaishnavi",
+      "email": "Vaishnavi@yahoo.com",
+      "role": "Amin",
+      "id": 3
+    },
+    {
+      "username": "Balu Kharade",
+      "password": "balu",
+      "id": 4,
+      "email": "balu@gmail.com",
+      "role": "Admin"
+    },
+    {
+      "username": "Test",
+      "password": "test",
+      "id": 5,
+      "email": "test@gmail.com",
+      "role": "tester"
+    },
+    {
+      "username": "Vaishnavi Kharade",
+      "password": "123",
+      "id": 6,
+      "email": "vaishu@gmail.com",
+      "role": "Admin"
+    }
+  ],
+  "employees": [
+    {
+      "first_name": "Balu Kharade",
+      "id": 1,
+      "email": "balu@gmail.com",
+      "age": 30,
+      "status": "Active",
+      "introduction": "Admin"
+    },
+    {
+      "first_name": "Vaishnavi Kharade",
+      "id": 2,
+      "email": "visahu@gmai.com",
+      "age": 25,
+      "introduction": "57567"
+    },
+    {
+      "first_name": "Admin",
+      "email": "Admin@gmai.com",
+      "age": 30,
+      "status": "Admin",
+      "introduction": "hii",
+      "id": 3
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
