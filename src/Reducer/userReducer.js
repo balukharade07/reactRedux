@@ -9,7 +9,7 @@ import {
 } from "../Action/type";
 const getRandomColor =() => {
   const randomColor = Math.floor(Math.random()*16777215).toString(16);
-  return randomColor;
+  return `#${randomColor}`;
 }
 
 export const userReducer = (
@@ -27,7 +27,7 @@ export const userReducer = (
       return {
         ...state,
         username: action.payload,
-        user_BG_Color: `#${getRandomColor()}`
+        user_BG_Color: getRandomColor()
       };
     case SET_AGE:
       return {
