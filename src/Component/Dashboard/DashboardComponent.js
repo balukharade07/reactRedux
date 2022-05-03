@@ -187,7 +187,7 @@ class DashboardComponent extends Component {
                         }}
                         size="large"
                       >
-                        {item.first_name.substring(0, 1).toUpperCase()}
+                        {item?.first_name.substring(0, 1).toUpperCase()}
                       </Avatar>
                     }
                     title={item.first_name}

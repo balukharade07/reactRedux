@@ -6,6 +6,7 @@ import "./common.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers } from "../Action";
+import { USER_LOG } from "../Action/type";
 
 function Login() {
   const navigate = useNavigate();
@@ -22,8 +23,10 @@ function Login() {
         item.username === values.username && item.password === values.password
     );
     if (getUserLogin?.id) {
+      dispatch({type:USER_LOG, payload: true});
       navigate(`user/${getUserLogin.id}/Dashboard`);
       message.success("Login Successfully...!!");
+
     } else {
       message.error("Login Failed...!!");
     }

@@ -22,3 +22,7 @@
 .ant-menu-item-active {
     background-color: #1890ff !important;
 }
+
+.menu-link-active .active {
+    background-color: #1890ff !important; 
+}
