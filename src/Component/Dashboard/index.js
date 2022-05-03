@@ -12,7 +12,7 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import "./Dashboard.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import DashboardPage from "../Dashboard/Dashboard";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../Action";
@@ -61,7 +61,7 @@ const Dashboard = () => {
       </Menu.Item>
       <Menu.Item key={'Logout'}>
         <Link to="/">
-          <LogoutOutlined /> Logout
+          <span onClick={() => dispatch({type: 'USER_LOG', payload: false})}><LogoutOutlined /> Logout</span>
         </Link>
       </Menu.Item>
     </Menu>
@@ -69,7 +69,7 @@ const Dashboard = () => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider className="menu-link-active" trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
           <Link to={`/user/${userId}/Dashboard`} style={{ color: "white" }}>
             {collapsed ? (
@@ -83,13 +83,13 @@ const Dashboard = () => {
         </div>
         <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]}>
           <Menu.Item key="1" icon={<HomeFilled />}>
-            <Link to={`Home`}>Home</Link>
+            <NavLink to={`Home`}>Home</NavLink>
           </Menu.Item>
           <Menu.Item key="2" icon={<TrophyFilled />}>
-            <Link to={`About`}>About</Link>
+            <NavLink to={`About`}>About</NavLink>
           </Menu.Item>
           <Menu.Item key="3" icon={<PhoneFilled />}>
-            <Link to={`Contact`}>Contact US</Link>
+            <NavLink to={`Contact`}>Contact US</NavLink>
           </Menu.Item>
         </Menu>
       </Sider>

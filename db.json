@@ -19,21 +19,24 @@
       "password": "balu@123",
       "id": 1,
       "email": "balu@gmail.com",
-      "role": "admin"
+      "role": "admin",
+      "userLoging": false
     },
     {
       "username": "test",
       "password": "test",
       "id": 2,
       "email": "test@gmail.com",
-      "role": "test"
+      "role": "test",
+      "userLoging": false
     },
     {
       "username": "Vaishnavi",
       "password": "Vaishnavi",
       "email": "Vaishnavi@yahoo.com",
       "role": "Amin",
-      "id": 3
+      "id": 3,
+      "userLoging": false
     },
     {
       "username": "Balu Kharade",
@@ -47,13 +50,22 @@
       "password": "test",
       "id": 5,
       "email": "test@gmail.com",
-      "role": "tester"
+      "role": "tester",
+      "userLoging": false
     },
     {
       "username": "Vaishnavi Kharade",
       "password": "123",
       "id": 6,
       "email": "vaishu@gmail.com",
+      "role": "Admin",
+      "userLoging": false
+    },
+    {
+      "username": "Sairaj Balu Kharade",
+      "password": "sai",
+      "id": 7,
+      "email": "balu@gmail.com",
       "role": "Admin"
     }
   ],
@@ -62,24 +74,43 @@
       "first_name": "Balu Kharade",
       "id": 1,
       "email": "balu@gmail.com",
-      "age": 30,
+      "age": 29,
       "status": "Active",
       "introduction": "Admin"
     },
     {
-      "first_name": "Vaishnavi Kharade",
+      "first_name": "Sairaj Balu Kharade",
       "id": 2,
-      "email": "visahu@gmai.com",
+      "email": "visahu@gmail.com",
       "age": 25,
-      "introduction": "57567"
+      "status": "Active",
+      "introduction": ""
     },
     {
       "first_name": "Admin",
-      "email": "Admin@gmai.com",
+      "id": 3,
+      "email": "Admin@gmail.com",
       "age": 30,
       "status": "Admin",
-      "introduction": "hii",
-      "id": 3
+      "introduction": "hii"
+    },
+    {
+      "first_name": "Vaishnavi Balu Kharade",
+      "email": "vaishu@gmail.com",
+      "age": 23,
+      "id": 4
+    },
+    {
+      "first_name": "Soham Kiran Kharade",
+      "email": "so@gmail.com",
+      "age": 6,
+      "id": 5
+    },
+    {
+      "first_name": "Shubham Kiran Kharade",
+      "email": "Shu@gmail.com",
+      "age": 3,
+      "id": 6
     }
   ],
   "profile": {

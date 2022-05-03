@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   ADD_EMPLOYEE,
   CREATE_USER,
@@ -16,13 +15,7 @@ import {
   USERINFO,
 } from "./type";
 
-const EMPBaseURL = () => {
-  return process.env.REACT_APP_API_EMPLOYEE_URL;
-};
-
-const UserBaseURL = () => {
-  return process.env.REACT_APP_API_USER_URL;
-};
+import api from '../api/index';
 
 export const setAge = (age) => (dispatch) => {
   dispatch({
@@ -52,8 +45,8 @@ export const resetCount = () => (dispatch) => {
 };
 
 export const getAllEmployees = () => async (dispatch) => {
-  await axios
-    .get(`${EMPBaseURL()}`)
+  await api
+    .get('/employees')
     .then((response) => {
       dispatch({
         type: GET_ALL_EMPLOYEES,
@@ -66,8 +59,8 @@ export const getAllEmployees = () => async (dispatch) => {
 };
 
 export const deleteEmployee = (id) => async (dispatch) => {
-  await axios
-    .delete(`${EMPBaseURL()}/${id}`)
+  await api
+    .delete(`/employees/${id}`)
     .then((res) => {
       dispatch({
         type: DELETE_EMPLOYEE,
@@ -80,8 +73,8 @@ export const deleteEmployee = (id) => async (dispatch) => {
 };
 
 export const addEmployee = (data) => async (dispatch) => {
-  await axios
-    .post(`${EMPBaseURL()}`, data)
+  await api
+    .post('/employees', data)
     .then((response) => {
       dispatch({
         type: ADD_EMPLOYEE,
@@ -94,8 +87,8 @@ export const addEmployee = (data) => async (dispatch) => {
 };
 
 export const editEmployee = (data) => async (dispatch) => {
-  await axios
-    .put(`${EMPBaseURL()}/${data.id}`, data)
+  await api
+    .put(`/employees/${data.id}`, data)
     .then((response) => {
       dispatch({
         type: EDIT_EMPLOYEE,
@@ -108,8 +101,8 @@ export const editEmployee = (data) => async (dispatch) => {
 };
 
 export const getEmployee = (id) => async (dispatch) => {
-  await axios
-    .get(`${EMPBaseURL()}/${id}`)
+  await api
+    .get(`/employees/${id}`)
     .then((response) => {
       dispatch({
         type: GET_EMPLOYEE,
@@ -122,8 +115,8 @@ export const getEmployee = (id) => async (dispatch) => {
 };
 
 export const getAllUsers = () => async (dispatch) => {
-  await axios
-    .get(`${UserBaseURL()}`)
+  await api
+    .get('/userInfo')
     .then((response) => {
       dispatch({
         type: USERINFO,
@@ -136,8 +129,8 @@ export const getAllUsers = () => async (dispatch) => {
 };
 
 export const getUser = (id) => async (dispatch) => {
-  await axios
-    .get(`${UserBaseURL()}/${id}`)
+  await api
+    .get(`/userInfo/${id}`)
     .then((response) => {
       dispatch({
         type: GET_USERINFO,
@@ -155,8 +148,8 @@ export const getUser = (id) => async (dispatch) => {
 };
 
 export const createUser = (value) => async (dispatch) => {
-  await axios
-    .post(`${UserBaseURL()}`, value)
+  await api
+    .post('/userInfo', value)
     .then((response) => {
       dispatch({
         type: CREATE_USER,
@@ -169,8 +162,8 @@ export const createUser = (value) => async (dispatch) => {
 };
 
 export const editUser = (value) => async (dispatch) => {
-  await axios
-    .put(`${UserBaseURL()}/${value.id}`, value)
+  await api
+    .put(`/userInfo/${value.id}`, value)
     .then((response) => {
       dispatch({
         type: EDIT_USER,

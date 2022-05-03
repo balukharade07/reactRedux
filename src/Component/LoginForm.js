@@ -15,7 +15,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     if(!userInfo) dispatch(getUser(userId));
-  },[]);
+  },[dispatch]);
 
   useEffect(() => {
     if(userId) form.setFieldsValue(userInfo);

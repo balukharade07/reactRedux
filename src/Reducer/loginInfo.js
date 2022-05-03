@@ -1,13 +1,21 @@
-import { CREATE_USER, EDIT_USER, GET_USERINFO, USERINFO } from "../Action/type";
+import { CREATE_USER, EDIT_USER, GET_USERINFO, USERINFO, USER_LOG } from "../Action/type";
 
 export const loginInfo = (
   state = {
     getAllUser: [],
     getUser: {},
+    userLog: false
   },
   action
 ) => {
   switch (action.type) {
+    case USER_LOG: {
+      return {
+        ...state,
+        userLog: action.payload,
+
+      }
+    }
     case USERINFO:
       return {
         ...state,
