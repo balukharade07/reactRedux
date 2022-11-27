@@ -18,6 +18,11 @@
   /* min-height: 100vh; */
 }
 
+.ant-modal-title{
+  font-size: 22px;
+  text-align: center;
+}
+
 .form-login {
     width: 550px;
     padding: 50px;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { Col, Row, Form, Input, Button, message } from "antd";
 import ReactIcon from "../assets/logo512.png";
 
@@ -16,6 +16,25 @@ function Login() {
   useEffect(() => {
     dispatch(getAllUsers());
   }, [dispatch]);
+
+  const debounce = (fn, delay) => {
+    let timer;
+    return function (...arg) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn(...arg);
+      }, delay);
+    };
+  }
+
+  const delaySaveToDb = useCallback(debounce((val)=>{
+    onFinish(val);
+  }
+, 1000), []);
+
+  const handleSubmit = (e) => {
+    delaySaveToDb(e)
+  }
 
   const onFinish = (values) => {
     const getUserLogin = getAllUser?.find(

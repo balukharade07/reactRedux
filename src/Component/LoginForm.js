@@ -107,13 +107,11 @@ const LoginForm = () => {
                     {userId ? "Update User" : "Create User"}
                   </Button>
                 </Form.Item>
-                {!userId && (
-                  <Form.Item wrapperCol={{ offset: 11, span: 12 }}>
-                    <Button type="link" onClick={() => navigate("/")}>
-                      Login
+                  <Form.Item wrapperCol={{ offset: 10, span: 12 }}>
+                    <Button type="link" onClick={() => navigate(!userId ? '/' : `/user/${userId}/Dashboard`)}>
+                    {!userId ? 'Login' : 'Back'}
                     </Button>
                   </Form.Item>
-                )}
               </Form>
             </div>
           </div>

@@ -19,6 +19,7 @@ class DashboardComponent extends Component {
     super(props);
     this.state = {
       isModalVisible: false,
+      mode:''
     };
   }
 
@@ -42,6 +43,7 @@ class DashboardComponent extends Component {
   handleToggle = () => {
     this.setState({
       isModalVisible: !this.state.isModalVisible,
+      mode:'Add'
     });
     this.formRef.current?.resetFields();
   };
@@ -50,6 +52,7 @@ class DashboardComponent extends Component {
     this.setState(
       {
         isModalVisible: true,
+        mode:'Edit'
       },
       () =>
         this.formRef.current.setFieldsValue({
@@ -59,14 +62,14 @@ class DashboardComponent extends Component {
   };
 
   addUser = () => {
-    const { isModalVisible } = this.state;
+    const { isModalVisible, mode } = this.state;
     const layout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
     };
     return (
       <Modal
-        title="Add User"
+        title={mode==='Add' ? 'Add User' : 'Edit User'}
         visible={isModalVisible}
         onCancel={this.handleToggle}
         footer={false}
@@ -113,7 +116,7 @@ class DashboardComponent extends Component {
               Cancel
             </Button>
             <Button type="primary" htmlType="submit">
-              Submit
+            {mode==='Add' ? 'Add' : 'Update'}
             </Button>
           </Form.Item>
         </Form>
