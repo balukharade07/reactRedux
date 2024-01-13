@@ -4,33 +4,42 @@ import ReactIcon from "../assets/logo512.png";
 import { useDispatch, useSelector } from "react-redux";
 import { createUser, editUser, getUser } from "../Action";
 import { useNavigate, useParams } from "react-router";
+import axios from "axios";
 // import './App.css';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams();
-  const userInfo = useSelector((state) => state.loginInfo.getUser);
+  const userInfo = localStorage.getItem('user')
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if(!userInfo) dispatch(getUser(userId));
-  },[dispatch]);
-
-  useEffect(() => {
-    if(userId) form.setFieldsValue(userInfo);
+    console.log("userInfo", userInfo);
+    if(userId) form.setFieldsValue(JSON.parse(userInfo));
   },[userInfo]);
 
   const onFinish = (values) => {
     if(userId) {
-      dispatch(editUser(values));
-      message.success("User Updated Successfully...!!")
-      navigate(`/user/${userId}/Dashboard`);
+      axios.put(`http://localhost:5000/update/${userId}`, values)
+      .then((response) => {
+        message.success("User Updated Successfully...!!")
+        navigate(`/user/${userId}/Dashboard`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     } else {
       delete values.id;
-      dispatch(createUser(values));
-      message.success("User Created Successfully...!!");
-      navigate("/");
+      axios.post('http://localhost:5000/register', values)
+      .then((response) => {
+        message.success("User Created Successfully...!!");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error?.message);
+        message.error("Email already present.");
+      });
     }
   };
 
@@ -61,6 +70,7 @@ const LoginForm = () => {
                 <Form.Item
                   label="Username"
                   name="username"
+                  hasFeedback
                   rules={[
                     {
                       required: true,
@@ -75,6 +85,7 @@ const LoginForm = () => {
                 <Form.Item
                   label="Password"
                   name="password"
+                  hasFeedback
                   rules={[
                     {
                       required: true,
@@ -84,27 +95,31 @@ const LoginForm = () => {
                 >
                   <Input.Password placeholder="Enter User Password"/>
                 </Form.Item>
-                <Form.Item name="id" label="Name" style={{ display: "none" }}>
+                <Form.Item name="_id" label="Name" style={{ display: "none" }}>
                   <Input type="hidden" />
                 </Form.Item>
                 <Form.Item
                   name="email"
                   label="Email"
+                  hasFeedback
                   rules={[{ required: true }, { type: "email" }]}
                 >
                   <Input placeholder="Enter User Email"/>
                 </Form.Item>
-                <Form.Item
+                {/* <Form.Item
                   name="role"
                   label="Role"
                   rules={[{ required: true }]}
                 >
                   <Input placeholder="Enter User Role"/>
-                </Form.Item>
+                </Form.Item> */}
 
-                <Form.Item wrapperCol={{ offset: 10, span: 12 }}>
+                <Form.Item wrapperCol={{ offset:7, span: 12 }}>
                   <Button type="primary" htmlType="submit">
                     {userId ? "Update User" : "Create User"}
+                  </Button>
+                  <Button danger style={{marginLeft:'15px'}} type="primary" htmlType="reset">
+                    Reset
                   </Button>
                 </Form.Item>
                   <Form.Item wrapperCol={{ offset: 10, span: 12 }}>

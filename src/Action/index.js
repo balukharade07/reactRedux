@@ -149,7 +149,7 @@ export const getUser = (id) => async (dispatch) => {
 
 export const createUser = (value) => async (dispatch) => {
   await api
-    .post('/userInfo', value)
+    .post('http://localhost:5000/register', value)
     .then((response) => {
       dispatch({
         type: CREATE_USER,

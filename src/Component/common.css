@@ -8,7 +8,8 @@
   display: grid;
   align-content: center;
   justify-content: center;
-  min-height: 100vh;
+  /* min-height: 100vh; */
+  margin-top: 150px;
 }
 
 .edit-form {
@@ -18,20 +19,115 @@
   /* min-height: 100vh; */
 }
 
-.ant-modal-title{
+.ant-modal-title {
   font-size: 22px;
   text-align: center;
 }
 
 .form-login {
-    width: 550px;
-    padding: 50px;
-    border: 1px solid #1890ff;
-    border-radius: 10px;
+  width: 550px;
+  padding: 50px;
+  border: 1px solid #1890ff;
+  border-radius: 10px;
 }
 
 .react-img {
   width: 250px;
   margin-top: 40px;
   max-width: 100%;
+}
+
+.ant-collapse-extra span {
+  padding: 10px;
+}
+
+.ant-modal-confirm-confirm .ant-modal-confirm-title {
+  text-align: center;
+  font-size: 24px;
+  padding-bottom: 20px;
+}
+
+.all-quote {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.admin-page .ant-collapse-extra span {
+  padding:0;
+}
+
+.Login-page .ant-list-item-meta-description {
+  text-align: right;
+  color: brown;
+}
+.ant-layout {
+  background-color: white !important;
+  background: white !important;
+}
+
+.gutter-box {
+  padding: 8px 0;
+  background: #00a0e9;
+  text-align: center;
+  font-weight: bold;
+}
+
+.box-section {
+  min-height: 270px;
+  border: 1px solid navy;
+  border-radius: 10px;
+  padding: 0 30px;
+  margin-top: 10px;
+}
+
+.pivote-table label {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.value-box div {
+  background-color: tomato;
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  display: flex;
+  text-align: center;
+  align-content: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: move;
+}
+
+[draggable] {
+  color: #1890ff;
+  /*
+ To prevent user selecting inside the drag source
+*/
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.pivote-table {
+  position: relative;
+}
+
+.pivote-table .reset-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.ant-table-cell-with-append {
+  min-width: 150px;
+}
+
+.expand-column {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  cursor: pointer;
 }

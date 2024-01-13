@@ -6,6 +6,7 @@ import {
   HomeFilled,
   TrophyFilled,
   PhoneFilled,
+  CrownFilled,
   LogoutOutlined,
   UserOutlined,
   DashboardOutlined,
@@ -27,6 +28,8 @@ const Dashboard = () => {
   const { pathname } = useLocation();
   const { userId } = useParams();
   const dispatch = useDispatch();
+  const userData = localStorage.getItem('user');
+const data = JSON.parse(userData);
   const {
     userReducer: { username, user_BG_Color },
   } = useSelector((state) => state);
@@ -42,16 +45,20 @@ const Dashboard = () => {
       setSelectedKey("3");
     } else if (pathname.includes("/Dashboard/Home")) {
       setSelectedKey("1");
-    } else {
+    }else if (pathname.includes("/Dashboard/profile")) {
+      setSelectedKey("4");
+    } else if (pathname.includes("/Dashboard/adminPage")) {
+      setSelectedKey("5");
+    }else {
       setSelectedKey();
     }
   }, [pathname]);
 
   const menu = (
     <Menu>
-      <Menu.Item key={username}>
-        <Link to=".">
-          <UserOutlined /> {username}
+      <Menu.Item key={data?.username || ''}>
+        <Link to="profile">
+          <UserOutlined /> {data?.username || ''}
         </Link>
       </Menu.Item>
       <Menu.Item key={'edituser'}>
@@ -61,7 +68,7 @@ const Dashboard = () => {
       </Menu.Item>
       <Menu.Item key={'Logout'}>
         <Link to="/">
-          <span onClick={() => dispatch({type: 'USER_LOG', payload: false})}><LogoutOutlined /> Logout</span>
+          <span onClick={() => localStorage.removeItem('user')}><LogoutOutlined /> Logout</span>
         </Link>
       </Menu.Item>
     </Menu>
@@ -85,12 +92,22 @@ const Dashboard = () => {
           <Menu.Item key="1" icon={<HomeFilled />}>
             <NavLink to={`Home`}>Home</NavLink>
           </Menu.Item>
+          <Menu.Item key="4" icon={<UserOutlined />}>
+            <NavLink to={`profile`}>Profile</NavLink>
+          </Menu.Item>
           <Menu.Item key="2" icon={<TrophyFilled />}>
             <NavLink to={`About`}>About</NavLink>
           </Menu.Item>
           <Menu.Item key="3" icon={<PhoneFilled />}>
             <NavLink to={`Contact`}>Contact US</NavLink>
           </Menu.Item>
+          {
+            data?.userType === 'Admin' && 
+            <Menu.Item key="5" icon={<CrownFilled />}>
+            <NavLink to={`adminPage`}>Admin Page</NavLink>
+          </Menu.Item>
+          }
+          
         </Menu>
       </Sider>
       <Layout className="site-layout">
@@ -106,21 +123,22 @@ const Dashboard = () => {
           >
             <span style={{ marginRight: "15px" }}>
               <UserOutlined />{" "}
-              <span style={{ marginRight: "15px" }}>{username}</span>
+              <span style={{ marginRight: "15px" }}>{data?.username || ''}</span>
             </span>
 
             <Dropdown overlay={menu} placement="bottomRight" arrow>
-              <Avatar
+              <img style={{width: '40px', height:'40px', border:'1px solid' , borderRadius:'50%'}} src={`https://robohash.org/${(data?.username)}.png` }/>
+              {/* <Avatar
                 style={{
-                  backgroundColor: user_BG_Color,
+                  backgroundColor: 'violet',
                   color: "white",
                   fontSize: "18px",
                   cursor: "pointer",
                 }}
                 size="large"
               >
-                {username.substring(0, 1).toUpperCase()}
-              </Avatar>
+                {(data?.username || '').substring(0, 1).toUpperCase()}
+              </Avatar> */}
             </Dropdown>
           </span>
         </Header>

@@ -12,29 +12,25 @@ import { Result } from "antd";
 import LoginForm from "./Component/LoginForm";
 import EditUser from "./Component/editUser";
 import { useSelector } from "react-redux";
+import Profile from "./Component/Dashboard/Profile";
 
 const RouterProvider = () => {
-    // const userLog = true || useSelector((state) => state.loginInfo?.userLog);
-    const userLog = true;
-
+  // const userLog = true || useSelector((state) => state.loginInfo?.userLog);
+  const userLog = true;
+  const activeUser = localStorage.getItem('user');
   return (
     <>
-    <Router>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/createUser" element={<LoginForm />} />
-            <Route exact path={userLog ? "/user/:userId/Dashboard" : '/'} element={userLog ? <Dashboard /> : <Result
-                  status="404"
-                  title="404"
-                  subTitle="Sorry, the page you visited does not exist."
-                  extra={<Link to={"/"}>Back Home</Link>}
-                />}>
-              <Route path="/user/:userId/Dashboard/Home" element={<Home />} />
-              <Route path="/user/:userId/Dashboard/About" element={<About />} />
-              <Route path="/user/:userId/Dashboard/Contact" element={<Contact />} />
-              <Route path="/user/:userId/Dashboard/edituser" element={<EditUser />} />
-              <Route path="/user/:userId/Dashboard/emp/:id" element={<UserComponent />} />
-            </Route>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/createUser" element={<LoginForm />} />
+          <Route exact path={"/user/:userId/Dashboard"} element={<Dashboard />}>
+            <Route path="/user/:userId/Dashboard/Home" element={<Home />} />
+            <Route path="/user/:userId/Dashboard/profile" element={<Profile />} />
+            <Route path="/user/:userId/Dashboard/About" element={<About />} />
+            <Route path="/user/:userId/Dashboard/Contact" element={<Contact />} />
+            <Route path="/user/:userId/Dashboard/edituser" element={<EditUser />} />
+            <Route path="/user/:userId/Dashboard/emp/:id" element={<UserComponent />} />
             <Route
               path="*"
               exact={true}
@@ -43,12 +39,25 @@ const RouterProvider = () => {
                   status="404"
                   title="404"
                   subTitle="Sorry, the page you visited does not exist."
-                  extra={<Link to={"/"}>Back Home</Link>}
+                  extra={<Link to={"/"}>Back sdfsdfsdfs</Link>}
                 />
               }
             />
-          </Routes>
-        </Router>
+          </Route>
+          <Route
+            path="*"
+            exact={true}
+            element={
+              <Result
+                status="404"
+                title="404"
+                subTitle="Sorry, the page you visited does not exist."
+                extra={<Link to={"/"}>Back Home</Link>}
+              />
+            }
+          />
+        </Routes>
+      </Router>
     </>
   )
 }
