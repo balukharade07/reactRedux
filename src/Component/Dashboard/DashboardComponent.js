@@ -96,7 +96,7 @@ class DashboardComponent extends Component {
             label="Email"
             rules={[{ required: true }, { type: "email" }]}
           >
-            <Input />
+            <Input disabled={mode!=='Add'} />
           </Form.Item>
           <Form.Item
             name="age"

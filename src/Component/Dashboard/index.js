@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown, Layout, Menu } from "antd";
+import { Button, Dropdown, Layout, Menu, message } from "antd";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -15,10 +15,11 @@ import {
 import "./Dashboard.css";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import DashboardPage from "../Dashboard/Dashboard";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getUser } from "../../Action";
 import { useParams } from "react-router-dom";
-import Avatar from "antd/lib/avatar/avatar";
+import { useNavigate } from 'react-router'
+import axios from "axios";
 
 const { Header, Sider, Content } = Layout;
 
@@ -28,11 +29,9 @@ const Dashboard = () => {
   const { pathname } = useLocation();
   const { userId } = useParams();
   const dispatch = useDispatch();
-  const userData = localStorage.getItem('user');
-const data = JSON.parse(userData);
-  const {
-    userReducer: { username, user_BG_Color },
-  } = useSelector((state) => state);
+  const userData = localStorage.getItem("user");
+  const data = JSON.parse(userData);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getUser(userId));
@@ -45,38 +44,64 @@ const data = JSON.parse(userData);
       setSelectedKey("3");
     } else if (pathname.includes("/Dashboard/Home")) {
       setSelectedKey("1");
-    }else if (pathname.includes("/Dashboard/profile")) {
+    } else if (pathname.includes("/Dashboard/profile")) {
       setSelectedKey("4");
     } else if (pathname.includes("/Dashboard/adminPage")) {
       setSelectedKey("5");
-    }else {
+    } else {
       setSelectedKey();
     }
   }, [pathname]);
 
+  const handleLogout = () => {
+    const token = localStorage.getItem("token");
+    axios
+      .post(
+        "http://localhost:5000/logout",
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((_response) => {
+        message.success("Logout Successfully...!!");
+        navigate("/");
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  };
+
   const menu = (
     <Menu>
-      <Menu.Item key={data?.username || ''}>
+      <Menu.Item key={data?.username || ""}>
         <Link to="profile">
-          <UserOutlined /> {data?.username || ''}
+          <UserOutlined /> {data?.username || ""}
         </Link>
       </Menu.Item>
-      <Menu.Item key={'edituser'}>
+      <Menu.Item key="edituser">
         <Link to="edituser">
           <EditOutlined /> Edit User
         </Link>
       </Menu.Item>
-      <Menu.Item key={'Logout'}>
-        <Link to="/">
-          <span onClick={() => localStorage.removeItem('user')}><LogoutOutlined /> Logout</span>
-        </Link>
+      <Menu.Item key="Logout">
+        <Button type="link" onClick={handleLogout}>
+          <LogoutOutlined /> Logout
+        </Button>
       </Menu.Item>
     </Menu>
   );
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider className="menu-link-active" trigger={null} collapsible collapsed={collapsed}>
+      <Sider
+        className="menu-link-active"
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+      >
         <div className="logo">
           <Link to={`/user/${userId}/Dashboard`} style={{ color: "white" }}>
             {collapsed ? (
@@ -101,13 +126,11 @@ const data = JSON.parse(userData);
           <Menu.Item key="3" icon={<PhoneFilled />}>
             <NavLink to={`Contact`}>Contact US</NavLink>
           </Menu.Item>
-          {
-            data?.userType === 'Admin' && 
+          {data?.userType === "Admin" && (
             <Menu.Item key="5" icon={<CrownFilled />}>
-            <NavLink to={`adminPage`}>Admin Page</NavLink>
-          </Menu.Item>
-          }
-          
+              <NavLink to={`adminPage`}>Admin Page</NavLink>
+            </Menu.Item>
+          )}
         </Menu>
       </Sider>
       <Layout className="site-layout">
@@ -123,11 +146,22 @@ const data = JSON.parse(userData);
           >
             <span style={{ marginRight: "15px" }}>
               <UserOutlined />{" "}
-              <span style={{ marginRight: "15px" }}>{data?.username || ''}</span>
+              <span style={{ marginRight: "15px" }}>
+                {data?.username || ""}
+              </span>
             </span>
 
             <Dropdown overlay={menu} placement="bottomRight" arrow>
-              <img style={{width: '40px', height:'40px', border:'1px solid' , borderRadius:'50%'}} src={`https://robohash.org/${(data?.username)}.png` }/>
+              <img
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  border: "1px solid",
+                  borderRadius: "50%",
+                }}
+                src={`https://robohash.org/${data?.username}.png`}
+                alt='username'
+              />
               {/* <Avatar
                 style={{
                   backgroundColor: 'violet',

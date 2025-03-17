@@ -7,15 +7,20 @@ const Profile = () => {
     const { userId } = useParams();
     const [profile, setProfile] = useState(null);
     useEffect(() => {
-        axios.get(`http://localhost:5000/profile/${userId}`)
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:5000/profile/${userId}`,{
+            headers: { Authorization: `Bearer ${token}` },
+          })
             .then((response) => {
                 setProfile(response.data)
             })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+    
     return (
         <div>
             <div style={{textAlign:'center'}}>
-                <img style={{ width: '200px', height: '200px', border: '1px solid', borderRadius: '50%' }} src={`https://robohash.org/${(profile?.username || 'text')}.png`} />
+                <img alt='user-icon' style={{ width: '200px', height: '200px', border: '1px solid', borderRadius: '50%' }} src={`https://robohash.org/${(profile?.username || 'text')}.png`} />
                 <h2>Name:- {profile?.username}</h2>
                 <h3>Email:- {profile?.email}</h3>
             </div>

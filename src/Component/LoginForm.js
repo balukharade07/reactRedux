@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
 import { Col, Row, Form, Input, Button, message } from "antd";
 import ReactIcon from "../assets/logo512.png";
-import { useDispatch, useSelector } from "react-redux";
-import { createUser, editUser, getUser } from "../Action";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
 // import './App.css';
 
 const LoginForm = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams();
   const userInfo = localStorage.getItem('user')
@@ -17,11 +14,14 @@ const LoginForm = () => {
   useEffect(() => {
     console.log("userInfo", userInfo);
     if(userId) form.setFieldsValue(JSON.parse(userInfo));
-  },[userInfo]);
-
+  },[form, userId, userInfo]);
+  
   const onFinish = (values) => {
+    const token = localStorage.getItem("token");
     if(userId) {
-      axios.put(`http://localhost:5000/update/${userId}`, values)
+      axios.put(`http://localhost:5000/update/${userId}`, values,{
+        headers: { Authorization: `Bearer ${token}` },
+    })
       .then((response) => {
         message.success("User Updated Successfully...!!")
         navigate(`/user/${userId}/Dashboard`);
@@ -31,7 +31,9 @@ const LoginForm = () => {
       });
     } else {
       delete values.id;
-      axios.post('http://localhost:5000/register', values)
+      axios.post('http://localhost:5000/register', values, {
+        headers: { Authorization: `Bearer ${token}` },
+    })
       .then((response) => {
         message.success("User Created Successfully...!!");
         navigate("/");

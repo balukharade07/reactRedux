@@ -15,7 +15,7 @@ import {
   USERINFO,
 } from "./type";
 
-import api from '../api/index';
+import api from "../api/index";
 
 export const setAge = (age) => (dispatch) => {
   dispatch({
@@ -46,7 +46,7 @@ export const resetCount = () => (dispatch) => {
 
 export const getAllEmployees = () => async (dispatch) => {
   await api
-    .get('/employees')
+    .get("/employees")
     .then((response) => {
       dispatch({
         type: GET_ALL_EMPLOYEES,
@@ -74,7 +74,7 @@ export const deleteEmployee = (id) => async (dispatch) => {
 
 export const addEmployee = (data) => async (dispatch) => {
   await api
-    .post('/employees', data)
+    .post("/employees", data)
     .then((response) => {
       dispatch({
         type: ADD_EMPLOYEE,
@@ -116,7 +116,7 @@ export const getEmployee = (id) => async (dispatch) => {
 
 export const getAllUsers = () => async (dispatch) => {
   await api
-    .get('/userInfo')
+    .get("/userInfo")
     .then((response) => {
       dispatch({
         type: USERINFO,
@@ -149,7 +149,7 @@ export const getUser = (id) => async (dispatch) => {
 
 export const createUser = (value) => async (dispatch) => {
   await api
-    .post('http://localhost:5000/register', value)
+    .post("http://localhost:5000/register", value)
     .then((response) => {
       dispatch({
         type: CREATE_USER,
@@ -179,3 +179,4 @@ export const editUser = (value) => async (dispatch) => {
       console.log(error);
     });
 };
+

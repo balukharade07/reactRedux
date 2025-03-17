@@ -11,7 +11,10 @@ const Admin = () => {
     }, []);
 
     const getAllUsers = () => {
-        axios.get(`http://localhost:5000/users`)
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:5000/users`,{
+            headers: { Authorization: `Bearer ${token}` },
+        })
             .then((response) => {
                 return response.data;
             }).then((response) => {
@@ -20,7 +23,10 @@ const Admin = () => {
     }
 
     const handleDelete = (_id) => {
-        axios.delete(`http://localhost:5000/userDelete/${_id}`)
+        const token = localStorage.getItem("token");
+        axios.delete(`http://localhost:5000/userDelete/${_id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        })
             .then((response) => {
                 getAllUsers();
                 message.success('Deleted Successfully...!!')

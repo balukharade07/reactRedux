@@ -18,7 +18,19 @@ import React, { Component } from "react";
       });
   }
   render() {
-    return <h2>Promise All</h2>;
+    return <>
+      <h2>Promise All</h2>
+      <iframe 
+        width="1200" 
+        height="550" 
+        allowFullScreen={true} 
+        src="https://www.youtube.com/embed/_TjtAyMkiTI?si=sNiEZSg6NFLFHy1v" 
+        title="YouTube video player" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin"
+      >
+      </iframe>
+    </>;
   }
 }
 

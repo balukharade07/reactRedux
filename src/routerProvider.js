@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, BrowserRouter as Router, Routes, Link } from "react-router-dom";
 // import { BrowserRouter } from "react-router";
 import About from "./Component/About";
@@ -11,13 +11,27 @@ import UserComponent from "./Component/Dashboard/UserComponent";
 import { Result } from "antd";
 import LoginForm from "./Component/LoginForm";
 import EditUser from "./Component/editUser";
-import { useSelector } from "react-redux";
 import Profile from "./Component/Dashboard/Profile";
+import axios from "axios";
 
 const RouterProvider = () => {
-  // const userLog = true || useSelector((state) => state.loginInfo?.userLog);
-  const userLog = true;
-  const activeUser = localStorage.getItem('user');
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          await axios.get("http://localhost:5000/isLoggendIn", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+        }
+      } catch (error) {
+        if (error.response?.data?.error === "Invalid or expired token") {
+          window.location.href = "/";
+          localStorage.removeItem("token");
+        }
+      }
+    })();
+  });
   return (
     <>
       <Router>
@@ -26,11 +40,23 @@ const RouterProvider = () => {
           <Route path="/createUser" element={<LoginForm />} />
           <Route exact path={"/user/:userId/Dashboard"} element={<Dashboard />}>
             <Route path="/user/:userId/Dashboard/Home" element={<Home />} />
-            <Route path="/user/:userId/Dashboard/profile" element={<Profile />} />
+            <Route
+              path="/user/:userId/Dashboard/profile"
+              element={<Profile />}
+            />
             <Route path="/user/:userId/Dashboard/About" element={<About />} />
-            <Route path="/user/:userId/Dashboard/Contact" element={<Contact />} />
-            <Route path="/user/:userId/Dashboard/edituser" element={<EditUser />} />
-            <Route path="/user/:userId/Dashboard/emp/:id" element={<UserComponent />} />
+            <Route
+              path="/user/:userId/Dashboard/Contact"
+              element={<Contact />}
+            />
+            <Route
+              path="/user/:userId/Dashboard/edituser"
+              element={<EditUser />}
+            />
+            <Route
+              path="/user/:userId/Dashboard/emp/:id"
+              element={<UserComponent />}
+            />
             <Route
               path="*"
               exact={true}
@@ -59,7 +85,7 @@ const RouterProvider = () => {
         </Routes>
       </Router>
     </>
-  )
-}
+  );
+};
 
 export default RouterProvider;
