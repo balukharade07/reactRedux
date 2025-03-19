@@ -1,4 +1,4 @@
-import React, { useEffect, createContext, useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Col,
   Row,
@@ -8,7 +8,6 @@ import {
   Button,
   message,
   Modal,
-  Avatar,
   Select,
 } from "antd";
 import ReactIcon from "../assets/logo512.png";
@@ -16,8 +15,7 @@ import axios from "axios";
 import "./common.css";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { getAllUsers } from "../Action";
-
+// import { getAllUsers } from "../Action";
 
 function Login() {
   const navigate = useNavigate();
@@ -31,9 +29,9 @@ function Login() {
   const [userList, setUserList] = useState([]);
   const [form] = Form.useForm();
   const [passwordForm] = Form.useForm();
-  useEffect(() => {
-    dispatch(getAllUsers());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getAllUsers());
+  // }, [dispatch]);
 
   useEffect(() => {
     (async () => {
@@ -42,25 +40,18 @@ function Login() {
         const userInfo = await axios.get("http://localhost:5000/isLoggendIn", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("userInfo",userInfo);
+
         if (userInfo?.data?._id) {
           navigate(`user/${userInfo.data._id}/Dashboard`);
-        }else {
-          getAllQuotes(1);
-        axios
-          .get(`http://localhost:5000/usersList`)
-          .then((response) => {
-            return response.data;
-          })
-          .then((response) => {
-            setUserList(response);
-          });
+        } else {
+          await handleUserList();
         }
-        
       } catch (error) {
+        await handleUserList();
         console.log(error);
       }
     })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getAllQuotes = (page, _id = "all") => {
@@ -74,6 +65,9 @@ function Login() {
       .then((response) => {
         setGetAllQuote(response.result);
         setCount(response.count);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -82,26 +76,26 @@ function Login() {
     getAllQuotes(page, filterBy);
   };
 
-  const debounce = (fn, delay) => {
-    let timer;
-    return function (...arg) {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        fn(...arg);
-      }, delay);
-    };
-  };
+  // const debounce = (fn, delay) => {
+  //   let timer;
+  //   return function (...arg) {
+  //     clearTimeout(timer);
+  //     timer = setTimeout(() => {
+  //       fn(...arg);
+  //     }, delay);
+  //   };
+  // };
 
-  const delaySaveToDb = useCallback(
-    debounce((val) => {
-      onFinish(val);
-    }, 1000),
-    []
-  );
+  // const delaySaveToDb = useCallback(
+  //   debounce((val) => {
+  //     onFinish(val);
+  //   }, 1000),
+  //   []
+  // );
 
-  const handleSubmit = (e) => {
-    delaySaveToDb(e);
-  };
+  // const handleSubmit = (e) => {
+  //   delaySaveToDb(e);
+  // };
 
   const onFinish = (values) => {
     axios
@@ -192,7 +186,7 @@ function Login() {
         password: value.password,
       };
       await axios
-        .put(`http://localhost:5000/update/${response._id}`, updatedValue)
+        .put(`http://localhost:5000/resetPassword/${response._id}`, updatedValue)
         .then((response) => {
           message.success("Password Updated Successfully...!!");
           passwordForm?.resetFields();
@@ -440,6 +434,21 @@ function Login() {
       </Row>
     </div>
   );
+
+  async function handleUserList() {
+    await axios
+      .get(`http://localhost:5000/usersList`)
+      .then((response) => {
+        return response.data;
+      })
+      .then((response) => {
+        setUserList(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    getAllQuotes(1);
+  }
 }
 
 export default Login;

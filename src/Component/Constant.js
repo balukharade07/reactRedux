@@ -200,3 +200,12 @@ export const ExpandInfo = ({record, setExpended, expanded}) => {
       </Fragment>
     )
   }
+
+  export const errorParser = (error, navigate) => {
+    if (error?.response?.data?.error === "Invalid or expired token") {
+        navigate("/");
+        localStorage.removeItem("token");
+      }else {
+        console.error(error?.response)
+      }
+  }

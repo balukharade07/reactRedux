@@ -3,6 +3,7 @@ import { Col, Row, Form, Input, Button, message } from "antd";
 import ReactIcon from "../assets/logo512.png";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
+import { errorParser } from "./Constant";
 // import './App.css';
 
 const LoginForm = () => {
@@ -27,7 +28,7 @@ const LoginForm = () => {
         navigate(`/user/${userId}/Dashboard`);
       })
       .catch((error) => {
-        console.log(error);
+        errorParser(error, navigate);
       });
     } else {
       delete values.id;
@@ -39,7 +40,7 @@ const LoginForm = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error?.message);
+        errorParser(error, navigate);
         message.error("Email already present.");
       });
     }

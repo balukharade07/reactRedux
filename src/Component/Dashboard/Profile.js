@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import axios from "axios";
 import { Collapse } from 'antd'
+import { errorParser } from "../Constant";
 
 const Profile = () => {
     const { userId } = useParams();
+    const navigate = useNavigate();
     const [profile, setProfile] = useState(null);
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -13,7 +15,7 @@ const Profile = () => {
           })
             .then((response) => {
                 setProfile(response.data)
-            })
+            }).catch((error) => errorParser(error, navigate))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     

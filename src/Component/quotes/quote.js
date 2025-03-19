@@ -12,20 +12,21 @@ import {
   Popconfirm,
 } from "antd";
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import axios from "axios";
+import { errorParser } from "../Constant";
 const ReachableContext = createContext(null);
 const UnreachableContext = createContext(null);
-
 
 const Quote = () => {
   const [modal, contextHolder] = Modal.useModal();
   const { userId: _id } = useParams();
   const [quoteData, setQuoteDara] = useState([]);
+  const navigate = useNavigate();
   const form = useRef();
   useEffect(() => {
     getQuote();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getQuote = () => {
@@ -36,7 +37,8 @@ const Quote = () => {
       })
       .then((response) => {
         setQuoteDara(response.data);
-      });
+      })
+      .catch((error) => errorParser(error, navigate));
   };
   const handleOk = async (item) => {
     const token = localStorage.getItem("token");
@@ -57,10 +59,12 @@ const Quote = () => {
               getQuote();
             })
             .catch((error) => {
+              errorParser(error, navigate);
               message.error("Already modify this quote.");
             });
         })
-        .catch(() => {
+        .catch((error) => {
+          errorParser(error, navigate);
           return Promise.reject(false);
         });
     }
@@ -74,9 +78,13 @@ const Quote = () => {
           .then((response) => {
             message.success("Quote Created Successfully...!!");
             getQuote();
+          })
+          .catch((error) => {
+            errorParser(error, navigate);
           });
       })
-      .catch(() => {
+      .catch((error) => {
+        errorParser(error, navigate);
         return Promise.reject(false);
       });
   };
@@ -90,6 +98,9 @@ const Quote = () => {
       .then((response) => {
         message.success("Quote Deleted Successfully...!!");
         setQuoteDara(quoteData?.filter((item) => item._id !== _id));
+      })
+      .catch((error) => {
+        errorParser(error, navigate);
       });
   };
   const config = (item = undefined) => {
