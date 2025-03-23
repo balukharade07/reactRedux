@@ -76,27 +76,6 @@ function Login() {
     getAllQuotes(page, filterBy);
   };
 
-  // const debounce = (fn, delay) => {
-  //   let timer;
-  //   return function (...arg) {
-  //     clearTimeout(timer);
-  //     timer = setTimeout(() => {
-  //       fn(...arg);
-  //     }, delay);
-  //   };
-  // };
-
-  // const delaySaveToDb = useCallback(
-  //   debounce((val) => {
-  //     onFinish(val);
-  //   }, 1000),
-  //   []
-  // );
-
-  // const handleSubmit = (e) => {
-  //   delaySaveToDb(e);
-  // };
-
   const onFinish = (values) => {
     axios
       .post("http://localhost:5000/login", values)

@@ -4,7 +4,7 @@ import { Route, BrowserRouter as Router, Routes, Link } from "react-router-dom";
 import About from "./Component/About";
 import Contact from "./Component/Contact";
 import Dashboard from "./Component/Dashboard";
-import "antd/dist/antd.css";
+// import "antd/dist/antd.css";
 import Home from "./Component/Home";
 import Login from "./Component/Login";
 import UserComponent from "./Component/Dashboard/UserComponent";

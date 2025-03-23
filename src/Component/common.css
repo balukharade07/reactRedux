@@ -2,6 +2,7 @@
   background-color: #001529;
   min-height: 100vh;
   text-align: center;
+  border-right: 1px solid;
 }
 
 .login-form {
@@ -54,17 +55,17 @@
 }
 
 .admin-page .ant-collapse-extra span {
-  padding:0;
+  padding: 0;
 }
 
 .Login-page .ant-list-item-meta-description {
   text-align: right;
   color: brown;
 }
-.ant-layout {
+/* .ant-layout {
   background-color: white !important;
   background: white !important;
-}
+} */
 
 .gutter-box {
   padding: 8px 0;
