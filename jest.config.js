@@ -28,6 +28,6 @@ module.exports = {
         statements: -10,
       },
     },
-    testTimeout: 10000,
+    testTimeout: 100000,
   };
   

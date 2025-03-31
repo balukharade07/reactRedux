@@ -16,6 +16,7 @@ body,
   background: #001529 !important;
   color: white !important;
 }
+
 .ant-form-item-label > label,
 .ant-popover-message,
 .ant-dropdown-menu-title-content,
@@ -43,6 +44,10 @@ h6 {
 
 .ant-layout-sider {
   border-right: 1px solid;
+}
+
+.ant-collapse-content-box {
+  color: #001529 !important;
 }
 
 input,

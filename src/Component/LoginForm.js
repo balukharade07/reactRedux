@@ -58,7 +58,7 @@ const LoginForm = () => {
         )}
 
         <Col offset={userId ? 3 : 0} span={18}>
-          <div className={userId ? "edit-form" : "login-form"} >
+          <div className={userId ? "edit-form" : "login-form"} data-testid='login-form'>
             <div className="form-login">
               <h2 style={{ textAlign: "center", paddingBottom: "15px" }}>
                 {userId ? "Update User" : "Create User"}
@@ -69,6 +69,7 @@ const LoginForm = () => {
                 labelCol={{ span: 6 }}
                 wrapperCol={{ span: 16 }}
                 form={form}
+
               >
                 <Form.Item
                   label="Username"
@@ -118,15 +119,15 @@ const LoginForm = () => {
                 </Form.Item> */}
 
                 <Form.Item wrapperCol={{ offset:7, span: 12 }}>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" data-testid='add-user'>
                     {userId ? "Update User" : "Create User"}
                   </Button>
-                  <Button danger style={{marginLeft:'15px'}} type="primary" htmlType="reset">
+                  <Button danger style={{marginLeft:'15px'}} type="primary" htmlType="reset" data-testid='resetForm'>
                     Reset
                   </Button>
                 </Form.Item>
                   <Form.Item wrapperCol={{ offset: 10, span: 12 }}>
-                    <Button type="link" onClick={() => navigate(!userId ? '/' : `/user/${userId}/Dashboard`)}>
+                    <Button data-testid='loginBtn' type="link" onClick={() => navigate(!userId ? '/' : `/user/${userId}/Dashboard`)}>
                     {!userId ? 'Login' : 'Back'}
                     </Button>
                   </Form.Item>

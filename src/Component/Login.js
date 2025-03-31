@@ -51,7 +51,7 @@ function Login() {
         console.log(error);
       }
     })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getAllQuotes = (page, _id = "all") => {
@@ -100,25 +100,28 @@ function Login() {
   };
 
   const onForgotEmail = async () => {
-    const value = await form.validateFields();
-    if (value) {
-      await axios
-        .get(`http://localhost:5000/forgotPassword/${value.email}`)
-        .then((response) => {
-          return response.data;
-        })
-        .then((response) => {
-          form?.resetFields();
-          passwordForm?.resetFields();
-          modal.confirm(forgotPasswordModal(response));
-          return Promise.resolve(true);
-        })
-        .catch((error) => {
-          message.error("Email is not valid!");
-          return Promise.reject(false);
-        });
-    } else {
-      return Promise.reject(false);
+    try {
+      const value = await form?.validateFields();
+      if (value.email) {
+        return axios
+          .get(`http://localhost:5000/forgotPassword/${value.email}`)
+          .then((response) => response.data)
+          .then((response) => {
+            form?.resetFields();
+            passwordForm?.resetFields();
+            modal.confirm(forgotPasswordModal(response));
+            return Promise.resolve(true);
+          })
+          .catch((error) => {
+            message.error("Email is not valid!");
+            return Promise.reject(false);
+          });
+      } else {
+        return Promise.reject(false);
+      }
+    } catch (error) {
+      console.log(error);
+      return Promise.resolve(false);
     }
   };
 
@@ -130,30 +133,28 @@ function Login() {
       closable: true,
       width: "500px",
       content: (
-        <>
-          <Form
-            name="control-hooks"
-            labelCol={{ span: 4 }}
-            wrapperCol={{ span: 24 }}
-            form={form}
+        <Form
+          name="control-hooks"
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 24 }}
+          form={form}
+        >
+          <Form.Item
+            label="Email"
+            name="email"
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: "Please input your email!",
+                type: "email",
+              },
+              { whitespace: true, message: "White space not allowed!" },
+            ]}
           >
-            <Form.Item
-              label="Email"
-              name="email"
-              hasFeedback
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your email!",
-                  type: "email",
-                },
-                { whitespace: true, message: "White space not allowed!" },
-              ]}
-            >
-              <Input type="email" placeholder="Please input your email!" />
-            </Form.Item>
-          </Form>
-        </>
+            <Input type="email" placeholder="Please input your email!" />
+          </Form.Item>
+        </Form>
       ),
     };
   };
@@ -165,7 +166,10 @@ function Login() {
         password: value.password,
       };
       await axios
-        .put(`http://localhost:5000/resetPassword/${response._id}`, updatedValue)
+        .put(
+          `http://localhost:5000/resetPassword/${response._id}`,
+          updatedValue
+        )
         .then((response) => {
           message.success("Password Updated Successfully...!!");
           passwordForm?.resetFields();
@@ -309,6 +313,7 @@ function Login() {
                       type="primary"
                       ghost
                       onClick={() => navigate("/createUser")}
+                      data-testid='createUser'
                     >
                       Create User
                     </Button>
