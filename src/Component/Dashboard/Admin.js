@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Collapse, message, Popconfirm } from "antd";
 import { DeleteTwoTone } from "@ant-design/icons";
 import axios from "axios";
-import { errorParser } from "../Constant";
+import { errorParser, getRootURL, getToken } from "../Constant";
 import { useNavigate } from "react-router";
 
 const Admin = () => {
@@ -15,11 +15,8 @@ const Admin = () => {
   }, []);
 
   const getAllUsers = () => {
-    const token = localStorage.getItem("token");
     axios
-      .get(`http://localhost:5000/users`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(getRootURL('users'), getToken())
       .then((response) => {
         return response.data;
       })
@@ -30,11 +27,8 @@ const Admin = () => {
   };
 
   const handleDelete = (_id) => {
-    const token = localStorage.getItem("token");
     axios
-      .delete(`http://localhost:5000/userDelete/${_id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .delete(getRootURL(`userDelete/${_id}`), getToken())
       .then((response) => {
         getAllUsers();
         message.success("Deleted Successfully...!!");

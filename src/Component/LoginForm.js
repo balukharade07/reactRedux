@@ -3,7 +3,7 @@ import { Col, Row, Form, Input, Button, message } from "antd";
 import ReactIcon from "../assets/logo512.png";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
-import { errorParser } from "./Constant";
+import { errorParser, getRootURL, getToken } from "./Constant";
 // import './App.css';
 
 const LoginForm = () => {
@@ -13,16 +13,12 @@ const LoginForm = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    console.log("userInfo", userInfo);
     if(userId) form.setFieldsValue(JSON.parse(userInfo));
   },[form, userId, userInfo]);
   
   const onFinish = (values) => {
-    const token = localStorage.getItem("token");
     if(userId) {
-      axios.put(`http://localhost:5000/update/${userId}`, values,{
-        headers: { Authorization: `Bearer ${token}` },
-    })
+      axios.put(getRootURL(`update/${userId}`), values, getToken())
       .then((response) => {
         message.success("User Updated Successfully...!!")
         navigate(`/user/${userId}/Dashboard`);
@@ -32,9 +28,7 @@ const LoginForm = () => {
       });
     } else {
       delete values.id;
-      axios.post('http://localhost:5000/register', values, {
-        headers: { Authorization: `Bearer ${token}` },
-    })
+      axios.post(getRootURL('register'), values, getToken())
       .then((response) => {
         message.success("User Created Successfully...!!");
         navigate("/");
@@ -75,13 +69,13 @@ const LoginForm = () => {
                   label="Username"
                   name="username"
                   hasFeedback
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your username!",
-                    },
-                    { whitespace: true, message: "White space not allowed!" },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: "Please input your username!",
+                  //   },
+                  //   { whitespace: true, message: "White space not allowed!" },
+                  // ]}
                 >
                   <Input placeholder="Enter User Name"/>
                 </Form.Item>
@@ -90,12 +84,12 @@ const LoginForm = () => {
                   label="Password"
                   name="password"
                   hasFeedback
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your password!",
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: "Please input your password!",
+                  //   },
+                  // ]}
                 >
                   <Input.Password placeholder="Enter User Password"/>
                 </Form.Item>
@@ -106,7 +100,7 @@ const LoginForm = () => {
                   name="email"
                   label="Email"
                   hasFeedback
-                  rules={[{ required: true }, { type: "email" }]}
+                  // rules={[{ required: true }, { type: "email" }]}
                 >
                   <Input placeholder="Enter User Email"/>
                 </Form.Item>

@@ -16,6 +16,7 @@ import {
 } from "./type";
 
 import api from "../api/index";
+import { getRootURL } from "../Component/Constant";
 
 export const setAge = (age) => (dispatch) => {
   dispatch({
@@ -149,7 +150,7 @@ export const getUser = (id) => async (dispatch) => {
 
 export const createUser = (value) => async (dispatch) => {
   await api
-    .post("http://localhost:5000/register", value)
+    .post(getRootURL('register'), value)
     .then((response) => {
       dispatch({
         type: CREATE_USER,

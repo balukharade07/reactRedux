@@ -20,6 +20,7 @@ import { getUser } from "../../Action";
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router'
 import axios from "axios";
+import { getRootURL, getToken } from "../Constant";
 
 const { Header, Sider, Content } = Layout;
 
@@ -54,14 +55,11 @@ const Dashboard = () => {
   }, [pathname]);
 
   const handleLogout = () => {
-    const token = localStorage.getItem("token");
     axios
       .post(
-        "http://localhost:5000/logout",
+        getRootURL('logout'),
         {},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        getToken()
       )
       .then((_response) => {
         message.success("Logout Successfully...!!");

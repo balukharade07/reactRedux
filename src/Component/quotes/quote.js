@@ -14,7 +14,7 @@ import {
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
-import { errorParser } from "../Constant";
+import { errorParser, getRootURL, getToken } from "../Constant";
 const ReachableContext = createContext(null);
 const UnreachableContext = createContext(null);
 
@@ -30,29 +30,23 @@ const Quote = () => {
   }, []);
 
   const getQuote = () => {
-    const token = localStorage.getItem("token");
     axios
-      .get(`http://localhost:5000/getQuote/${_id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(getRootURL(`getQuote/${_id}`), getToken())
       .then((response) => {
         setQuoteDara(response.data);
       })
       .catch((error) => errorParser(error, navigate));
   };
   const handleOk = async (item) => {
-    const token = localStorage.getItem("token");
     if (item) {
       return await form.current
         .validateFields()
         .then((values) => {
           axios
             .put(
-              `http://localhost:5000/editQuote/${item._id}`,
+              getRootURL(`editQuote/${item._id}`),
               { quote: values.quote },
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              }
+              getToken()
             )
             .then((response) => {
               message.success("Quote Updated Successfully...!!");
@@ -72,9 +66,7 @@ const Quote = () => {
       .validateFields()
       .then((values) => {
         axios
-          .post("http://localhost:5000/addQuote", values, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
+          .post(getRootURL("addQuote"), values, getToken())
           .then((response) => {
             message.success("Quote Created Successfully...!!");
             getQuote();
@@ -90,11 +82,8 @@ const Quote = () => {
   };
 
   const handleDelete = (_id) => {
-    const token = localStorage.getItem("token");
     axios
-      .delete(`http://localhost:5000/delete/${_id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .delete(getRootURL(`delete/${_id}`), getToken())
       .then((response) => {
         message.success("Quote Deleted Successfully...!!");
         setQuoteDara(quoteData?.filter((item) => item._id !== _id));

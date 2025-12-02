@@ -15,6 +15,7 @@ import axios from "axios";
 import "./common.css";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
+import { getRootURL, getToken } from "./Constant";
 // import { getAllUsers } from "../Action";
 
 function Login() {
@@ -36,11 +37,7 @@ function Login() {
   useEffect(() => {
     (async () => {
       try {
-        const token = localStorage.getItem("token");
-        const userInfo = await axios.get("http://localhost:5000/isLoggendIn", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
+        const userInfo = await axios.get(getRootURL("isLoggendIn"), getToken());
         if (userInfo?.data?._id) {
           navigate(`user/${userInfo.data._id}/Dashboard`);
         } else {
@@ -56,9 +53,7 @@ function Login() {
 
   const getAllQuotes = (page, _id = "all") => {
     axios
-      .get(
-        `http://localhost:5000/getAllQuote/${_id}?pageSize=${5}&page=${page}`
-      )
+      .get(getRootURL(`getAllQuote/${_id}?pageSize=${5}&page=${page}`))
       .then((response) => {
         return response.data;
       })
@@ -78,7 +73,9 @@ function Login() {
 
   const onFinish = (values) => {
     axios
-      .post("http://localhost:5000/login", values)
+      .post(getRootURL("login"), values, {
+        withCredentials: true,
+      })
       .then((response) => {
         localStorage.setItem("user", JSON.stringify(response?.data.user));
         localStorage.setItem("token", response.data.token);
@@ -104,7 +101,7 @@ function Login() {
       const value = await form?.validateFields();
       if (value.email) {
         return axios
-          .get(`http://localhost:5000/forgotPassword/${value.email}`)
+          .get(getRootURL(`forgotPassword/${value.email}`))
           .then((response) => response.data)
           .then((response) => {
             form?.resetFields();
@@ -166,10 +163,7 @@ function Login() {
         password: value.password,
       };
       await axios
-        .put(
-          `http://localhost:5000/resetPassword/${response._id}`,
-          updatedValue
-        )
+        .put(getRootURL(`resetPassword/${response._id}`), updatedValue)
         .then((response) => {
           message.success("Password Updated Successfully...!!");
           passwordForm?.resetFields();
@@ -313,7 +307,7 @@ function Login() {
                       type="primary"
                       ghost
                       onClick={() => navigate("/createUser")}
-                      data-testid='createUser'
+                      data-testid="createUser"
                     >
                       Create User
                     </Button>
@@ -362,17 +356,18 @@ function Login() {
                   allowClear={false}
                   defaultValue={filterBy}
                   value={filterBy}
+                  data-testid="quote-select"
+                  getPopupContainer={(trigger) => trigger.parentNode}
                 >
-                  <Select.Option key={"all"} value={undefined}>
+                  <Select.Option key="all" value={undefined}>
                     All
                   </Select.Option>
-                  {userList?.map((item) => {
-                    return (
-                      <Select.Option key={item._id} value={item._id}>
-                        {item.name}
-                      </Select.Option>
-                    );
-                  })}
+
+                  {userList?.map((item) => (
+                    <Select.Option key={item._id} value={item._id}>
+                      {item.name}
+                    </Select.Option>
+                  ))}
                 </Select>
                 <List
                   itemLayout="horizontal"
@@ -421,7 +416,7 @@ function Login() {
 
   async function handleUserList() {
     await axios
-      .get(`http://localhost:5000/usersList`)
+      .get(getRootURL("usersList"))
       .then((response) => {
         return response.data;
       })

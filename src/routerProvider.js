@@ -13,6 +13,7 @@ import LoginForm from "./Component/LoginForm";
 import EditUser from "./Component/editUser";
 import Profile from "./Component/Dashboard/Profile";
 import axios from "axios";
+import { getRootURL, getToken } from "./Component/Constant";
 
 const RouterProvider = () => {
   useEffect(() => {
@@ -20,9 +21,7 @@ const RouterProvider = () => {
       try {
         const token = localStorage.getItem("token");
         if (token) {
-          await axios.get("http://localhost:5000/isLoggendIn", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          await axios.get(getRootURL('isLoggendIn'), getToken());
         }
       } catch (error) {
         if (error.response?.data?.error === "Invalid or expired token") {
