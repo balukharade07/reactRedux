@@ -339,7 +339,6 @@ const About = () => {
     //   }
     // }).value();
 
-    debugger;
 
     let columnSort = _(data)
     .groupBy('Quarter')

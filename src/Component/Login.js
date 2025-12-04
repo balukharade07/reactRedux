@@ -77,17 +77,16 @@ function Login() {
         withCredentials: true,
       })
       .then((response) => {
-        localStorage.setItem("user", JSON.stringify(response?.data.user));
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response?.data));
         message.success("Login Successfully...!!");
         dispatch({
           type: "USER_LOG",
           payload: response.data.user,
         });
-        navigate(`user/${response.data.user._id}/Dashboard`);
+        navigate(`user/${response.data._id}/Dashboard`);
       })
       .catch((error) => {
-        message.error("Email and password are incorrect");
+        message.warning("Email and password are incorrect");
         localStorage.removeItem("user");
       });
   };
@@ -290,16 +289,15 @@ function Login() {
                   </Form.Item>
 
                   <Form.Item wrapperCol={{ offset: 8, span: 12 }}>
-                    <Button type="primary" htmlType="submit">
-                      Submit
+                    <Button danger htmlType="reset" type="primary">
+                      Reset
                     </Button>
                     <Button
-                      danger
                       style={{ marginLeft: "10px" }}
-                      htmlType="reset"
                       type="primary"
+                      htmlType="submit"
                     >
-                      Reset
+                      Submit
                     </Button>
                   </Form.Item>
                   <Form.Item wrapperCol={{ offset: 9, span: 12 }}>

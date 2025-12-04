@@ -1314,10 +1314,10 @@ export function getRootURL(subUrl){
 }
 
 export function getToken() {
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   
   return {
     withCredentials: true,
-    headers: { Authorization: `Bearer ${token}` },
+    // headers: { Authorization: `Bearer ${token}` },
   };
 }
