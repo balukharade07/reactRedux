@@ -97,9 +97,9 @@ function Login() {
 
   const onForgotEmail = async () => {
     try {
-      const value = await form?.validateFields();
-      if (value.email) {
-        return axios
+      const value = await form?.validateFields?.();
+      if (value?.email) {
+        return await axios
           .get(getRootURL(`forgotPassword/${value.email}`))
           .then((response) => response.data)
           .then((response) => {
@@ -116,7 +116,6 @@ function Login() {
         return Promise.reject(false);
       }
     } catch (error) {
-      console.log(error);
       return Promise.resolve(false);
     }
   };
@@ -125,7 +124,7 @@ function Login() {
     return {
       title: "Confirm Your Email",
       onOk: () => onForgotEmail(),
-      icon: false,
+      icon: null,
       closable: true,
       width: "500px",
       content: (
@@ -179,9 +178,9 @@ function Login() {
 
   const forgotPasswordModal = (response) => {
     return {
-      title: "Updated Your Password",
+      title: "Create New Password",
       onOk: () => onForgotPassword(response),
-      icon: false,
+      icon: null,
       closable: true,
       width: "500px",
       content: (
