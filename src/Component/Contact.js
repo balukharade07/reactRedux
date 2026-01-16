@@ -61,15 +61,22 @@
 
 
 import { Button } from 'antd';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ContactChild from './ContactChild';
+import UserClsass from './UserClsass';
 export const MyContext = React.createContext();
 const Contact = () => {
   const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    console.log("==== parent useEffect called");
+  },[])
   return (
     <MyContext.Provider value={{userName:'Balu Kharade',count, setCount}}>
       <ContactChild />
       <Button onClick={()=>setCount(count+1)}>Increment</Button>
+      <UserClsass name='test' />
+      <UserClsass name='test1' />
     </MyContext.Provider>
   )
 }

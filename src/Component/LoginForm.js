@@ -1,36 +1,44 @@
 import React, { useEffect } from "react";
 import { Col, Row, Form, Input, Button, message } from "antd";
 import ReactIcon from "../assets/logo512.png";
-import { useDispatch, useSelector } from "react-redux";
-import { createUser, editUser, getUser } from "../Action";
 import { useNavigate, useParams } from "react-router";
+import axios from "axios";
+import { errorParser, getRootURL, getToken } from "./Constant";
 // import './App.css';
 
 const LoginForm = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams();
-  const userInfo = useSelector((state) => state.loginInfo.getUser);
+  const userInfo = localStorage.getItem("user");
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if(!userInfo) dispatch(getUser(userId));
-  },[dispatch]);
-
-  useEffect(() => {
-    if(userId) form.setFieldsValue(userInfo);
-  },[userInfo]);
+    if (userId) form.setFieldsValue(JSON.parse(userInfo));
+  }, [form, userId, userInfo]);
 
   const onFinish = (values) => {
-    if(userId) {
-      dispatch(editUser(values));
-      message.success("User Updated Successfully...!!")
-      navigate(`/user/${userId}/Dashboard`);
+    if (userId) {
+      axios
+        .put(getRootURL(`update/${userId}`), values, getToken())
+        .then((response) => {
+          message.success("User Updated Successfully...!!");
+          navigate(`/user/${userId}/Dashboard`);
+        })
+        .catch((error) => {
+          errorParser(error, navigate);
+        });
     } else {
       delete values.id;
-      dispatch(createUser(values));
-      message.success("User Created Successfully...!!");
-      navigate("/");
+      axios
+        .post(getRootURL("register"), values, getToken())
+        .then((response) => {
+          message.success("User Created Successfully...!!");
+          navigate("/");
+        })
+        .catch((error) => {
+          errorParser(error, navigate);
+          message.error("Email already present.");
+        });
     }
   };
 
@@ -46,7 +54,10 @@ const LoginForm = () => {
         )}
 
         <Col offset={userId ? 3 : 0} span={18}>
-          <div className={userId ? "edit-form" : "login-form"} >
+          <div
+            className={userId ? "edit-form" : "login-form"}
+            data-testid="login-form"
+          >
             <div className="form-login">
               <h2 style={{ textAlign: "center", paddingBottom: "15px" }}>
                 {userId ? "Update User" : "Create User"}
@@ -61,6 +72,7 @@ const LoginForm = () => {
                 <Form.Item
                   label="Username"
                   name="username"
+                  hasFeedback
                   rules={[
                     {
                       required: true,
@@ -69,12 +81,13 @@ const LoginForm = () => {
                     { whitespace: true, message: "White space not allowed!" },
                   ]}
                 >
-                  <Input placeholder="Enter User Name"/>
+                  <Input placeholder="Enter User Name" />
                 </Form.Item>
 
                 <Form.Item
                   label="Password"
                   name="password"
+                  hasFeedback
                   rules={[
                     {
                       required: true,
@@ -82,38 +95,57 @@ const LoginForm = () => {
                     },
                   ]}
                 >
-                  <Input.Password placeholder="Enter User Password"/>
+                  <Input.Password placeholder="Enter User Password" />
                 </Form.Item>
-                <Form.Item name="id" label="Name" style={{ display: "none" }}>
+                <Form.Item name="_id" label="Name" style={{ display: "none" }}>
                   <Input type="hidden" />
                 </Form.Item>
                 <Form.Item
                   name="email"
                   label="Email"
+                  hasFeedback
                   rules={[{ required: true }, { type: "email" }]}
                 >
-                  <Input placeholder="Enter User Email"/>
+                  <Input placeholder="Enter User Email" />
                 </Form.Item>
-                <Form.Item
+                {/* <Form.Item
                   name="role"
                   label="Role"
                   rules={[{ required: true }]}
                 >
                   <Input placeholder="Enter User Role"/>
-                </Form.Item>
+                </Form.Item> */}
 
-                <Form.Item wrapperCol={{ offset: 10, span: 12 }}>
-                  <Button type="primary" htmlType="submit">
+                <Form.Item wrapperCol={{ offset: 7, span: 12 }}>
+                  <Button
+                    danger
+                    
+                    type="primary"
+                    htmlType="reset"
+                    data-testid="resetForm"
+                  >
+                    Reset
+                  </Button>
+                  <Button
+                    style={{ marginLeft: "15px" }}
+                    type="primary"
+                    htmlType="submit"
+                    data-testid="add-user"
+                  >
                     {userId ? "Update User" : "Create User"}
                   </Button>
                 </Form.Item>
-                {!userId && (
-                  <Form.Item wrapperCol={{ offset: 11, span: 12 }}>
-                    <Button type="link" onClick={() => navigate("/")}>
-                      Login
-                    </Button>
-                  </Form.Item>
-                )}
+                <Form.Item wrapperCol={{ offset: 10, span: 12 }}>
+                  <Button
+                    data-testid="loginBtn"
+                    type="link"
+                    onClick={() =>
+                      navigate(!userId ? "/" : `/user/${userId}/Dashboard`)
+                    }
+                  >
+                    {!userId ? "Login" : "Back"}
+                  </Button>
+                </Form.Item>
               </Form>
             </div>
           </div>

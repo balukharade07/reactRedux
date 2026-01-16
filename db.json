@@ -31,12 +31,11 @@
       "userLoging": false
     },
     {
-      "username": "Vaishnavi",
-      "password": "Vaishnavi",
-      "email": "Vaishnavi@yahoo.com",
-      "role": "Amin",
+      "username": "Vaishnavi Kharade",
+      "password": "balu",
       "id": 3,
-      "userLoging": false
+      "email": "Vaishnavi@yahoo.com",
+      "role": "Amin"
     },
     {
       "username": "Balu Kharade",
@@ -76,13 +75,14 @@
       "email": "balu@gmail.com",
       "age": 29,
       "status": "Active",
-      "introduction": "Admin"
+      "introduction": "Admin",
+      "icon": "Balu"
     },
     {
       "first_name": "Sairaj Balu Kharade",
       "id": 2,
       "email": "visahu@gmail.com",
-      "age": 25,
+      "age": 0.5,
       "status": "Active",
       "introduction": ""
     },
@@ -101,10 +101,10 @@
       "id": 4
     },
     {
-      "first_name": "Soham Kiran Kharade",
+      "first_name": "SohamRaje Kiran Kharade",
+      "id": 5,
       "email": "so@gmail.com",
-      "age": 6,
-      "id": 5
+      "age": 10
     },
     {
       "first_name": "Shubham Kiran Kharade",
